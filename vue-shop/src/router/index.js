@@ -26,8 +26,7 @@ router.beforeEach((to, from, next) => {
   // to 表示将要访问的路径
   // from 代表从哪一个路径来
   // next 是一个函数表示放行
-  if (to.path === '/login') return
-  next()
+  if (to.path === '/login') return next()
   // 获取token
   const token = window.sessionStorage.getItem('token')
   if (!token) return next('/login')
