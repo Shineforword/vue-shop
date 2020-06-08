@@ -81,8 +81,8 @@ export default {
         loginParams.password = this.loginForm.password
         const { data: res } = await this.$http.post('login', loginParams)
         console.log(res)
-        if (res.meta.status !== 200) return console.log('login fail')
-        console.log('login success')
+        if (res.meta.status !== 200) return this.$message.error('登录失败')
+        this.$message.error('登录成功')
       })
     }
   }
