@@ -24,8 +24,8 @@
           ></el-input>
         </el-form-item>
         <el-form-item class="login_btns">
-          <el-button type="primary">登录</el-button>
-          <el-button type="info" @click="resetLoginForm">重置</el-button>
+          <el-button type="primary" @click="loginAction">登录</el-button>
+          <el-button type="info" @click="resetLoginFormAction">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -58,10 +58,16 @@ export default {
   },
   methods: {
     // 点击重置登录表单
-    resetLoginForm() {
+    resetLoginFormAction() {
       console.log(this.$refs.loginFormRef)
       //$refs.loginFormRef获取引用对象实例
       this.$refs.loginFormRef.resetFields()
+    },
+    // 点击登录
+    loginAction() {
+      this.$refs.loginFormRef.validate(valid => {
+        console.log(valid)
+      })
     }
   }
 }
