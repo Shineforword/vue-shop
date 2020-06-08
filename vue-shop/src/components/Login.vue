@@ -14,7 +14,10 @@
         ref="loginFormRef"
       >
         <el-form-item prop="userName">
-          <el-input prefix-icon="iconfont icon-user" v-model="loginForm.userName"></el-input>
+          <el-input
+            prefix-icon="iconfont icon-user"
+            v-model="loginForm.userName"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -66,9 +69,11 @@ export default {
     // 点击登录
     loginAction() {
       // validate函数预校验
-      this.$refs.loginFormRef.validate(valid => {
+      this.$refs.loginFormRef.validate(async valid => {
         console.log(valid)
         if (!valid) return
+        const res = await this.$http.post('login', this.loginForm)
+        console.log(res)
       })
     }
   }
@@ -119,5 +124,5 @@ export default {
 .login_btns {
   display: flex;
   justify-content: flex-end;
-}
-</style>>
+}</style
+>>
