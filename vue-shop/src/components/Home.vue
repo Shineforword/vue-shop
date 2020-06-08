@@ -25,7 +25,7 @@
             <!-- 二级菜单 -->
             <el-menu-item index="1-4-1">
               <template slot="title">
-                <!-- 一级菜单图标 -->
+                <!-- 菜单图标 -->
                 <i class="el-icon-location"></i>
                 <span>导航二</span>
               </template>
@@ -41,10 +41,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      menusList: []
+    }
+  },
+  // 生命周期函数
+  created() {
+    this.getMenuList()
+  },
   methods: {
     logoutAction() {
       window.sessionStorage.clear()
       this.$router.push('login')
+    },
+    //获取所有菜单
+    async getMenuList() {
+      const { data: res } = await this.$http.get('menus')
+      console.log(res)
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+      this.menusList = res.data
     }
   }
 }
