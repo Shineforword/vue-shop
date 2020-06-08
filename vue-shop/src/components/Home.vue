@@ -15,19 +15,19 @@
         <!-- 侧边栏菜单区 -->
         <el-menu background-color="#333744" text-color="#fff" active-text-color="#ffd04b">
           <!-- 一级菜单 -->
-          <el-submenu index="1">
+          <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
             <!-- 一级菜单模板 -->
             <template slot="title">
               <!-- 一级菜单图标 -->
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span>{{item.authName}}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item index="1-4-1">
+            <el-menu-item :index="subItem.id+''" v-for="subItem in item.children" :key="subItem.id">
               <template slot="title">
                 <!-- 菜单图标 -->
                 <i class="el-icon-location"></i>
-                <span>导航二</span>
+                <span>{{subItem.authName}}</span>
               </template>
             </el-menu-item>
           </el-submenu>
@@ -43,7 +43,7 @@
 export default {
   data() {
     return {
-      menusList: []
+      menuList: []
     }
   },
   // 生命周期函数
@@ -60,7 +60,7 @@ export default {
       const { data: res } = await this.$http.get('menus')
       console.log(res)
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
-      this.menusList = res.data
+      this.menuList = res.data
     }
   }
 }
