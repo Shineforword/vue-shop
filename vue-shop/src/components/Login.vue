@@ -65,8 +65,10 @@ export default {
     },
     // 点击登录
     loginAction() {
+      // validate函数预校验
       this.$refs.loginFormRef.validate(valid => {
         console.log(valid)
+        if (!valid) return
       })
     }
   }
