@@ -72,8 +72,17 @@ export default {
       this.$refs.loginFormRef.validate(async valid => {
         console.log(valid)
         if (!valid) return
-        const res = await this.$http.post('login', this.loginForm)
+        // 返回promise对象,添加await ->外部加async
+        let loginParams = {
+          username: '',
+          password: ''
+        }
+        loginParams.username = this.loginForm.userName
+        loginParams.password = this.loginForm.password
+        const { data: res } = await this.$http.post('login', loginParams)
         console.log(res)
+        if (res.meta.status !== 200) return console.log('login fail')
+        console.log('login success')
       })
     }
   }
