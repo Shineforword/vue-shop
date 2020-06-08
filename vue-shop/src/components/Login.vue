@@ -41,8 +41,8 @@ export default {
     return {
       // 表单数据对象
       loginForm: {
-        userName: '',
-        password: ''
+        userName: 'admin',
+        password: '123456'
       },
       // 表单验证规则对象
       loginFormRules: {
@@ -82,7 +82,14 @@ export default {
         const { data: res } = await this.$http.post('login', loginParams)
         console.log(res)
         if (res.meta.status !== 200) return this.$message.error('登录失败')
-        this.$message.error('登录成功')
+        this.$message.success('登录成功')
+        /*登录成功保存token到客户端的sessionStore中(回话期间的存储机制)
+          项目中除了登录之外的其他api必须在登录之后才能访问
+          token只能在当前网站打开期间生效,所以将token保存在sessionStore中
+          通过编程式导航跳转到后台主页,路由地址是/home
+        */
+        window.sessionStorage.setItem('token', res.data.token)
+        this.$router.push('/home')
       })
     }
   }
