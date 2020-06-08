@@ -22,6 +22,7 @@
           :collapse="isCollapse"
           :collapse-transition="false"
           router
+          default-active="/users"
         >
           <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">

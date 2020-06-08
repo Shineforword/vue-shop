@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
 import Welcome from '../components/Welcome.vue'
+import Users from '../components/user/Users.vue'
 
 Vue.use(VueRouter)
 
@@ -25,11 +26,20 @@ const router = new VueRouter({
         {
           path: '/welcome',
           component: Welcome
+        },
+        {
+          path: '/users',
+          component: Users
         }
       ]
     }
   ]
 })
+// 消去路由重复提示(在VUE中路由遇到Error: Avoided redundant navigation to current location)
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 // 挂载路由导航守卫
 router.beforeEach((to, from, next) => {
   // to 表示将要访问的路径
