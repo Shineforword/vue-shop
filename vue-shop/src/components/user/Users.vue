@@ -11,12 +11,12 @@
       <!-- 搜索与添加 -->
       <el-row :gutter="20">
         <el-col :span="7">
-          <el-input placeholder="请输入内容">
-            <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
+            <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisiable = true">添加用户</el-button>
         </el-col>
       </el-row>
       <!-- 用户列表区 -->
@@ -53,6 +53,16 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
+      <!-- 添加用户对话框 -->
+      <el-dialog title="提示" :visible.sync="addDialogVisiable" width="30%">
+        <!-- 内容主体区 -->
+        <span>这是一段信息</span>
+        <!-- 底部区 -->
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="addDialogVisiable = false">取 消</el-button>
+          <el-button type="primary" @click="addDialogVisiable = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -70,7 +80,9 @@ export default {
         pagesize: 2
       },
       userlist: [],
-      total: 0
+      total: 0,
+      // 添加对话框(默认隐藏)
+      addDialogVisiable: false
     }
   },
   created() {
@@ -107,7 +119,7 @@ export default {
         userInfo.mg_state = !userInfo.mg_state
         return this.$message.error('设置失败')
       }
-      this.$message.success('设置成功')
+      this.$message.success('更新用户状态成功')
     }
   }
 }
