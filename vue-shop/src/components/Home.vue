@@ -22,7 +22,7 @@
           :collapse="isCollapse"
           :collapse-transition="false"
           router
-          default-active="/users"
+          :default-active="activePath"
         >
           <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
@@ -37,6 +37,7 @@
               :index="'/'+subItem.path"
               v-for="subItem in item.children"
               :key="subItem.id"
+              @click="saveNavState('/'+subItem.path)"
             >
               <template slot="title">
                 <!-- 菜单图标 -->
@@ -67,12 +68,15 @@ export default {
         '102': 'iconfont icon-danju',
         '145': 'iconfont icon-baobiao'
       },
-      isCollapse: false
+      isCollapse: false,
+      // 激活的地址
+      activePath: ''
     }
   },
   // 生命周期函数
   created() {
     this.getMenuList()
+    this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
     logoutAction() {
@@ -89,6 +93,11 @@ export default {
     //切换折叠与展开
     toggleAction() {
       this.isCollapse = !this.isCollapse
+    },
+    //保存链接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     }
   }
 }
