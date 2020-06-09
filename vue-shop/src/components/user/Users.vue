@@ -29,7 +29,7 @@
         <el-table-column label="状态" prop="mg_state">
           <!-- 作用域插槽 -->
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.mg_state" active-value="100" inactive-value="0"></el-switch>
+            <el-switch v-model="scope.row.mg_state" @change="userStateChanged(scope.row)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180px">
@@ -43,7 +43,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 分页区域 -->
+      <!-- 分页区域(layout指定显示的布局结构) -->
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -97,6 +97,17 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pagenum = newPage
       this.getUserList()
+    },
+    //监听开关状态改变
+    async userStateChanged(userInfo) {
+      const { data: res } = await this.$http.put(
+        `users/${userInfo.id}/state/${userInfo.mg_state}`
+      )
+      if (res.meta.status !== 200) {
+        userInfo.mg_state = !userInfo.mg_state
+        return this.$message.error('设置失败')
+      }
+      this.$message.success('设置成功')
     }
   }
 }
