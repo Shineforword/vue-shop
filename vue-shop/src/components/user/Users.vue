@@ -54,9 +54,22 @@
         :total="total"
       ></el-pagination>
       <!-- 添加用户对话框 -->
-      <el-dialog title="提示" :visible.sync="addDialogVisiable" width="30%">
+      <el-dialog title="添加用户" :visible.sync="addDialogVisiable" width="40%">
         <!-- 内容主体区 -->
-        <span>这是一段信息</span>
+        <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+          <el-form-item label="用户" prop="username">
+            <el-input v-model="addForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input v-model="addForm.password"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="addForm.email"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="mobile">
+            <el-input v-model="addForm.mobile"></el-input>
+          </el-form-item>
+        </el-form>
         <!-- 底部区 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="addDialogVisiable = false">取 消</el-button>
@@ -82,7 +95,27 @@ export default {
       userlist: [],
       total: 0,
       // 添加对话框(默认隐藏)
-      addDialogVisiable: false
+      addDialogVisiable: false,
+      // 添加用户的表单
+      addForm: {
+        name: '',
+        password: '',
+        email: '',
+        mobile: ''
+      },
+      // 表单验证规则对象
+      addFormRules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+        ],
+        email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+        mobile: [{ required: true, message: '请输入手机号', trigger: 'blur' }]
+      }
     }
   },
   created() {
