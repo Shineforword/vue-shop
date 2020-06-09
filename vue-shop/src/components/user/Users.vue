@@ -83,6 +83,19 @@
 <script>
 export default {
   data() {
+    // 验证邮箱的校验规则
+    var checkEmail = (rule, value, cb) => {
+      const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
+      if (regEmail.test(value)) return cb()
+      cb(new Error('请输入合法邮箱'))
+    }
+    // 验证手机号的校验规则
+    var checkMobile = (rule, value, cb) => {
+      const regMobile = /^(0|86|17951)?(13[0-9]|15[0123456789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      if (regMobile.test(value)) return cb()
+      cb(new Error('请输入合法手机号'))
+    }
+
     return {
       // 获取用户列表的参数对象
       queryInfo: {
@@ -113,8 +126,14 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 3, max: 10, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ],
-        email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
-        mobile: [{ required: true, message: '请输入手机号', trigger: 'blur' }]
+        email: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { validator: checkEmail, trigger: 'blur' }
+        ],
+        mobile: [
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { validator: checkMobile, trigger: 'blur' }
+        ]
       }
     }
   },
