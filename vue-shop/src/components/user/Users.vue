@@ -11,7 +11,7 @@
       <!-- 搜索与添加 -->
       <el-row :gutter="20">
         <el-col :span="7">
-          <el-input placeholder="请输入内容" v-model="input3" class>
+          <el-input placeholder="请输入内容">
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
@@ -19,12 +19,50 @@
           <el-button type="primary">添加用户</el-button>
         </el-col>
       </el-row>
+      <!-- 用户列表区 -->
+      <el-table :data="userlist" border stripe>
+        <el-table-column label="姓名" prop="username"></el-table-column>
+        <el-table-column label="邮箱" prop="email"></el-table-column>
+        <el-table-column label="联系方式" prop="mobile"></el-table-column>
+        <el-table-column label="角色" prop="role_name"></el-table-column>
+        <el-table-column label="状态" prop="mg_state"></el-table-column>
+        <el-table-column label="操作"></el-table-column>
+      </el-table>
     </el-card>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      // 获取用户列表的参数对象
+      queryInfo: {
+        query: '',
+        pagenum: '1',
+        pagesize: '2'
+      },
+      userlist: [],
+      total: 0
+    }
+  },
+  created() {
+    this.getUserList()
+  },
+  methods: {
+    // 获取用户列表
+    async getUserList() {
+      const { data: res } = await this.$http.get('users', {
+        params: this.queryInfo
+      })
+      if (res.meta.status !== 200)
+        return this.$message.error('获取用户列表失败')
+      this.userlist = res.data.users
+      this.total = res.data.total
+      console.log(res)
+    }
+  }
+}
 </script>
 
 <style  scoped>
