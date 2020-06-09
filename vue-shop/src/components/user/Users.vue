@@ -26,7 +26,12 @@
         <el-table-column label="邮箱" prop="email"></el-table-column>
         <el-table-column label="联系方式" prop="mobile"></el-table-column>
         <el-table-column label="角色" prop="role_name"></el-table-column>
-        <el-table-column label="状态" prop="mg_state"></el-table-column>
+        <el-table-column label="状态" prop="mg_state">
+          <!-- 作用域插槽 -->
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.mg_state" active-value="100" inactive-value="0"></el-switch>
+          </template>
+        </el-table-column>
         <el-table-column label="操作"></el-table-column>
       </el-table>
     </el-card>
