@@ -87,7 +87,12 @@
         </span>
       </el-dialog>
       <!-- 修改用户对话框 -->
-      <el-dialog title="编辑用户" :visible.sync="editDialogVisible" width="50%">
+      <el-dialog
+        title="编辑用户"
+        :visible.sync="editDialogVisible"
+        width="50%"
+        @close="editDialogClosed"
+      >
         <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
           <el-form-item label="用户">
             <el-input v-model="editForm.username" disabled></el-input>
@@ -101,7 +106,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="editUserInfo">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -255,6 +260,31 @@ export default {
       this.editForm = res.data
       this.editDialogVisible = true
       // 绘制
+    },
+    // 编辑对话框关闭事件
+    editDialogClosed() {
+      // $refs->addFormRef 找ref的引用
+      this.$refs.editFormRef.resetFields()
+    },
+    // 编辑
+    editUserInfo() {
+      this.$refs.editFormRef.validate(async valid => {
+        console.log(valid)
+        if (!valid) return
+        // 发起
+        const { data: res } = await this.$http.put(
+          'users/' + this.editForm.id,
+          {
+            email: this.editForm.email,
+            mobile: this.editForm.mobile
+          }
+        )
+        if (res.meta.status !== 200) return this.$message.error('更新失败')
+        //
+        this.editDialogVisible = false
+        this.getUserList()
+        this.$message.success('更新成功')
+      })
     }
   }
 }
