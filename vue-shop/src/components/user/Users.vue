@@ -35,7 +35,7 @@
         <el-table-column label="操作" width="180px">
           <!-- 作用域插槽 -->
           <template class="list_operation">
-            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog()"></el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
               <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
@@ -48,7 +48,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pagenum"
-        :page-sizes="[2, 4, 8, 16]"
+        :page-sizes="[10, 20, 50, 100]"
         :page-size="queryInfo.pagesize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -81,6 +81,13 @@
           <el-button type="primary" @click="addUser">确 定</el-button>
         </span>
       </el-dialog>
+      <!-- 修改用户对话框 -->
+      <el-dialog title="编辑用户" :visible.sync="editDialogVisible" width="50%">
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -108,12 +115,14 @@ export default {
         // 当前页数
         pagenum: 1,
         // 当前步长
-        pagesize: 2
+        pagesize: 10
       },
       userlist: [],
       total: 0,
       // 添加对话框(默认隐藏)
       addDialogVisiable: false,
+      // 修改用户对话框
+      editDialogVisible: false,
       // 添加用户的表单
       addForm: {
         username: '',
@@ -201,8 +210,11 @@ export default {
         // 刷新
         this.getUserList()
       })
+    },
+    //展示编辑用户的对话框
+    showEditDialog() {
+      this.editDialogVisible = true
     }
-    //
   }
 }
 </script>

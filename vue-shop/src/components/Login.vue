@@ -14,10 +14,7 @@
         ref="loginFormRef"
       >
         <el-form-item prop="userName">
-          <el-input
-            prefix-icon="iconfont icon-user"
-            v-model="loginForm.userName"
-          ></el-input>
+          <el-input prefix-icon="iconfont icon-user" v-model="loginForm.userName"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -140,5 +137,6 @@ export default {
 .login_btns {
   display: flex;
   justify-content: flex-end;
-}</style
+}
+</style
 >>
