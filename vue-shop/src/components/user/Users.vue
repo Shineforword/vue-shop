@@ -63,7 +63,7 @@
         <!-- 内容主体区 -->
         <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
           <el-form-item label="用户" prop="username">
-            <el-input v-model="addForm.name"></el-input>
+            <el-input v-model="addForm.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="addForm.password"></el-input>
@@ -78,7 +78,7 @@
         <!-- 底部区 -->
         <span slot="footer" class="dialog-footer">
           <el-button @click="addDialogVisiable = false">取 消</el-button>
-          <el-button type="primary" @click="addDialogVisiable = false">确 定</el-button>
+          <el-button type="primary" @click="addUser">确 定</el-button>
         </span>
       </el-dialog>
     </el-card>
@@ -116,7 +116,7 @@ export default {
       addDialogVisiable: false,
       // 添加用户的表单
       addForm: {
-        name: '',
+        username: '',
         password: '',
         email: '',
         mobile: ''
@@ -185,7 +185,14 @@ export default {
       console.log(this.$refs)
       console.log(this.$refs.addFormRef)
       this.$refs.addFormRef.resetFields()
+    },
+    //添加用户
+    addUser() {
+      this.$refs.addFormRef.validate(valid => {
+        console.log(valid)
+      })
     }
+    //
   }
 }
 </script>
