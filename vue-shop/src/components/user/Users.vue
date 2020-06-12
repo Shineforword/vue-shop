@@ -54,7 +54,12 @@
         :total="total"
       ></el-pagination>
       <!-- 添加用户对话框 -->
-      <el-dialog title="添加用户" :visible.sync="addDialogVisiable" width="40%">
+      <el-dialog
+        title="添加用户"
+        :visible.sync="addDialogVisiable"
+        width="40%"
+        @close="addDialogClosed"
+      >
         <!-- 内容主体区 -->
         <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
           <el-form-item label="用户" prop="username">
@@ -124,7 +129,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 3, max: 10, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ],
         email: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
@@ -172,6 +177,14 @@ export default {
         return this.$message.error('设置失败')
       }
       this.$message.success('更新用户状态成功')
+    },
+    // 监听用户对话框的重置
+    addDialogClosed() {
+      console.log('对话框关闭')
+      // $refs->addFormRef 找ref的引用
+      console.log(this.$refs)
+      console.log(this.$refs.addFormRef)
+      this.$refs.addFormRef.resetFields()
     }
   }
 }
