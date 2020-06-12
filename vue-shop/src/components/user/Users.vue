@@ -188,8 +188,18 @@ export default {
     },
     //添加用户
     addUser() {
-      this.$refs.addFormRef.validate(valid => {
-        console.log(valid)
+      this.$refs.addFormRef.validate(async valid => {
+        if (!valid) return
+        // 预校验通过
+        const { data: res } = await this.$http.post('users', this.addForm)
+        if (res.meta.status !== 201) {
+          return this.$message.error('添加用户失败')
+        }
+        this.$message.success('添加用户成功')
+        // 隐藏
+        this.addDialogVisiable = false
+        // 刷新
+        this.getUserList()
       })
     }
     //
