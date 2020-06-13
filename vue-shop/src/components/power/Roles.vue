@@ -16,7 +16,7 @@
       </el-row>
       <!-- 角色列表 -->
       <el-table :data="rolelist" border stripe>
-        <!-- 展开列 -->
+        <!-- 展开列(expand) -->
         <el-table-column type="expand"></el-table-column>
         <!-- 索引列 -->
         <el-table-column type="index"></el-table-column>
