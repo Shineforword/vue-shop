@@ -19,7 +19,7 @@
           <el-button type="primary" @click="addDialogVisiable = true">添加用户</el-button>
         </el-col>
       </el-row>
-      <!-- 用户列表区 -->
+      <!-- 用户列表区(border竖线 stripe隔行变色) -->
       <el-table :data="userlist" border stripe>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="姓名" prop="username"></el-table-column>
