@@ -47,6 +47,7 @@
                       :key="item3.id"
                       type="warning"
                       closable
+                      @close="removeRightById()"
                     >{{item3.authName}}</el-tag>
                   </el-col>
                 </el-row>
@@ -89,6 +90,22 @@ export default {
       if (res.meta.status !== 200) return this.$message.error('获取失败')
       this.rolelist = res.data
       console.log(this.rolelist)
+    },
+    //
+    async removeRightById() {
+      // 弹框()
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该用户用户权限, 是否继续?',
+        '删除权限!',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).catch(err => {
+        return err
+      })
+      if (confirmResult !== 'confirm') return this.$message.info('已取消')
     }
   }
 }
