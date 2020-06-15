@@ -26,10 +26,24 @@
             >
               <!-- 一级权限 -->
               <el-col :span="5">
-                <el-tag>{{ item1.authName }}</el-tag>
+                <el-tag>{{ item1.authName}}</el-tag>
+                <i class="el-icon-caret-right"></i>
               </el-col>
               <!-- 二级权限和三级权限 -->
-              <el-col :span="19"></el-col>
+              <el-col :span="19">
+                <!-- 通过循环嵌套二级权限 -->
+                <el-row
+                  v-for="(item2,i2) in item1.children"
+                  :key="item2.id"
+                  :class="i2===0?'':['bd_top']"
+                >
+                  <el-col :span="5">
+                    <el-tag type="success">{{ item2.authName}}</el-tag>
+                    <i class="el-icon-caret-right"></i>
+                  </el-col>
+                  <el-col :span="14"></el-col>
+                </el-row>
+              </el-col>
             </el-row>
           </template>
         </el-table-column>
@@ -39,15 +53,9 @@
         <el-table-column label="角色描述" prop="roleDesc"></el-table-column>
         <el-table-column label="操作" width="300px">
           <template>
-            <el-button size="mini" type="primary" icon="el-icon-edit"
-              >编辑</el-button
-            >
-            <el-button size="mini" type="danger" icon="el-icon-delete"
-              >删除</el-button
-            >
-            <el-button size="mini" type="warning" icon="el-icon-setting"
-              >分配权限</el-button
-            >
+            <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
+            <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
+            <el-button size="mini" type="warning" icon="el-icon-setting">分配权限</el-button>
           </template>
         </el-table-column>
       </el-table>
