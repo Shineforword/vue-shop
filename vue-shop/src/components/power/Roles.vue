@@ -47,7 +47,7 @@
                       :key="item3.id"
                       type="warning"
                       closable
-                      @close="removeRightById()"
+                      @close="removeRightById(scope.row,item3.id)"
                     >{{item3.authName}}</el-tag>
                   </el-col>
                 </el-row>
@@ -92,7 +92,7 @@ export default {
       console.log(this.rolelist)
     },
     //
-    async removeRightById() {
+    async removeRightById(role, rightId) {
       // 弹框()
       const confirmResult = await this.$confirm(
         '此操作将永久删除该用户用户权限, 是否继续?',
@@ -106,6 +106,11 @@ export default {
         return err
       })
       if (confirmResult !== 'confirm') return this.$message.info('已取消')
+      const { data: res } = await this.$http.delete(
+        `roles/${role.id}/rights/${rightId}`
+      )
+      if (res.meta.status !== 200) return this.$$message.error('取消权限失败')
+      role.children = res.data
     }
   }
 }
