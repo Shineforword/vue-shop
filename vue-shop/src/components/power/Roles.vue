@@ -26,7 +26,7 @@
             >
               <!-- 一级权限 -->
               <el-col :span="5">
-                <el-tag>{{ item1.authName}}</el-tag>
+                <el-tag closable>{{ item1.authName}}</el-tag>
                 <i class="el-icon-caret-right"></i>
               </el-col>
               <!-- 二级权限和三级权限 -->
@@ -38,7 +38,7 @@
                   :class="[i2===0?'':'bd_top','v_center']"
                 >
                   <el-col :span="6">
-                    <el-tag type="success">{{ item2.authName}}</el-tag>
+                    <el-tag type="success" closable>{{ item2.authName}}</el-tag>
                     <i class="el-icon-caret-right"></i>
                   </el-col>
                   <el-col :span="18">
@@ -46,6 +46,7 @@
                       v-for="(item3) in item2.children "
                       :key="item3.id"
                       type="warning"
+                      closable
                     >{{item3.authName}}</el-tag>
                   </el-col>
                 </el-row>
