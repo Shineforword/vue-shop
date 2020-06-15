@@ -26,7 +26,7 @@
             >
               <!-- 一级权限 -->
               <el-col :span="5">
-                <el-tag closable>{{ item1.authName}}</el-tag>
+                <el-tag closable @close="removeRightById(scope.row,item1.id)">{{ item1.authName}}</el-tag>
                 <i class="el-icon-caret-right"></i>
               </el-col>
               <!-- 二级权限和三级权限 -->
@@ -38,7 +38,11 @@
                   :class="[i2===0?'':'bd_top','v_center']"
                 >
                   <el-col :span="6">
-                    <el-tag type="success" closable>{{ item2.authName}}</el-tag>
+                    <el-tag
+                      type="success"
+                      closable
+                      @close="removeRightById(scope.row,item2.id)"
+                    >{{ item2.authName}}</el-tag>
                     <i class="el-icon-caret-right"></i>
                   </el-col>
                   <el-col :span="18">
@@ -110,6 +114,7 @@ export default {
         `roles/${role.id}/rights/${rightId}`
       )
       if (res.meta.status !== 200) return this.$$message.error('取消权限失败')
+      // 在返回中获取最新权限(不用重新获取全部数据,避免列表重新渲染)
       role.children = res.data
     }
   }
