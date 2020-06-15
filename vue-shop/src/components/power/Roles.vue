@@ -67,11 +67,24 @@
           <template>
             <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
             <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
-            <el-button size="mini" type="warning" icon="el-icon-setting">分配权限</el-button>
+            <el-button
+              size="mini"
+              type="warning"
+              icon="el-icon-setting"
+              @click="showSetRightDialog"
+            >分配权限</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
+    <!-- 分配权限的对话框 -->
+    <el-dialog title="分配权限" :visible.sync="setRightDialogVisible" width="50%">
+      <el-tree :data="rightslist" :props="treeProps"></el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRightDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setRightDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -80,7 +93,17 @@ export default {
   // 数据
   data() {
     return {
-      rolelist: []
+      // 所有角色列表
+      rolelist: [],
+      // 设置权限对话框
+      setRightDialogVisible: false,
+      // 所有权限数据
+      rightslist: [],
+      // 树形控件的属性绑定对象
+      treeProps: {
+        label: 'authName',
+        children: 'children'
+      }
     }
   },
   // 生命周期函数
@@ -95,7 +118,7 @@ export default {
       this.rolelist = res.data
       console.log(this.rolelist)
     },
-    //
+    //删除权限
     async removeRightById(role, rightId) {
       // 弹框()
       const confirmResult = await this.$confirm(
@@ -116,6 +139,15 @@ export default {
       if (res.meta.status !== 200) return this.$$message.error('取消权限失败')
       // 在返回中获取最新权限(不用重新获取全部数据,避免列表重新渲染)
       role.children = res.data
+    },
+    // 展示分配权限的对话框
+    async showSetRightDialog() {
+      // 获取所有权限
+      const { data: res } = await this.$http.get('rights/tree')
+      if (res.meta.status !== 200) return this.$message.error('获取失败!')
+      // 保存权限
+      this.rightslist = res.data
+      this.setRightDialogVisible = true
     }
   }
 }
