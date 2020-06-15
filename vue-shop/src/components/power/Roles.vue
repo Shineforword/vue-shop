@@ -21,7 +21,7 @@
           <template slot-scope="scope">
             <el-row
               v-for="(item1, i1) in scope.row.children"
-              :class="['bd_bottom', i1 === 0 ? 'bd_top' : '']"
+              :class="['bd_bottom', i1 === 0 ? 'bd_top' : '','v_center']"
               :key="item1.id"
             >
               <!-- 一级权限 -->
@@ -35,13 +35,19 @@
                 <el-row
                   v-for="(item2,i2) in item1.children"
                   :key="item2.id"
-                  :class="i2===0?'':['bd_top']"
+                  :class="[i2===0?'':'bd_top','v_center']"
                 >
-                  <el-col :span="5">
+                  <el-col :span="6">
                     <el-tag type="success">{{ item2.authName}}</el-tag>
                     <i class="el-icon-caret-right"></i>
                   </el-col>
-                  <el-col :span="14"></el-col>
+                  <el-col :span="18">
+                    <el-tag
+                      v-for="(item3) in item2.children "
+                      :key="item3.id"
+                      type="warning"
+                    >{{item3.authName}}</el-tag>
+                  </el-col>
                 </el-row>
               </el-col>
             </el-row>
@@ -95,5 +101,9 @@ export default {
 }
 .bd_bottom {
   border-bottom: solid 1px #eeeeee;
+}
+.v_center {
+  display: flex;
+  align-items: center;
 }
 </style>
